@@ -2,9 +2,22 @@ class Scene1 extends Phaser.Scene {
     constructor() {
         super('animator')
     }
+    
+    
 
     create() {
-        this.add.text(20, 20, 'Loading...')
+        
+        var music = this.sound.add('andal');
+        music.volume = .2
+        // music.play();
+
+        this.anims.create({
+            key: 'nyzk_anim',
+            frames: this.anims.generateFrameNumbers('nyzk'),
+            frameRate: 30,
+            repeat: -1
+        })
+
         this.anims.create({
             key: 'soldier_anim',
             frames: this.anims.generateFrameNumbers('soldier'),
@@ -15,6 +28,13 @@ class Scene1 extends Phaser.Scene {
         this.anims.create({
             key: 'boom_anim',
             frames: this.anims.generateFrameNumbers('boom'),
+            frameRate: 20,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'boom_anim_left',
+            frames: this.anims.generateFrameNumbers('boom_left'),
             frameRate: 20,
             repeat: -1
         })

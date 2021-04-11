@@ -1,11 +1,14 @@
+import * as actions from '../actions'
+
 class Scene2 extends Phaser.Scene {
   constructor() {
     super("play");
+    this.score = 0;
   }
 
   resetPos(ship) {
-    let randomX = Phaser.Math.Between(700, 2000)
-    ship.x = randomX
+    let randomX = Phaser.Math.Between(700, 2000);
+    ship.x = randomX;
   }
 
   moveTank(ship, speed) {
@@ -15,41 +18,58 @@ class Scene2 extends Phaser.Scene {
     }
   }
 
+  moveRock(ship, speed) {
+    ship.y += speed;
+  }
+
   enemyKilled(beam, enemy) {
-    beam.anims.play('explode')
-    setTimeout(() => { beam.destroy() }, 100);
-    setTimeout(() => { enemy.destroy() }, 50);
+    this.score += 10;
+    this.scoreText.setText("Score: " + this.score);
+    beam.anims.play("explode");
+    setTimeout(() => {
+      beam.destroy();
+    }, 50);
+    enemy.destroy();
   }
 
   create() {
-    // Make Background and Ground
-    this.add.image(350, 195, "bg");
+    
+
+    // Make Background, Ground and score dashboard
+    this.background = this.add.tileSprite(0, 0, 700, 390, "bg").setOrigin(0, 0);
+    this.scoreText = this.add.text(16, 16, "score: 0", {
+      fontSize: "32px",
+      fill: "#000",
+    });
+
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(350, 522, "ground").setScale(1);
 
     // Make player and his collider
     this.player = this.physics.add.sprite(100, 255, "player").setScale(0.15);
     this.player.setCollideWorldBounds(true);
-    this.player.body.setGravityY(300);
+    this.player.body.setGravityY(400);
     this.physics.add.collider(this.player, this.platforms);
 
     // Make Enemies
-    this.tank1 = this.physics.add.image(900, 300, "tank2");
-    this.tank1.setScale(0.3);
-    this.soldier1 = this.physics.add.sprite(1000, 325, "soldier");
-    this.soldier1.setScale(0.8);
+    let s = this;
+    actions.addTanks(s, 'tank2', .3)
+    actions.addEnemies(s, 'soldier', .8)
+    actions.addRocks(s, 'nyzk', 0.05)
 
-    // Add Animations
-    this.soldier1.play("soldier_anim");
+    // this.rock = this.physics.add.sprite(200, -30, "nyzk").setScale(0.05);
+    // this.rock.body.setGravityY(400);
+    // this.rock.anims.play("nyzk_anim");
+
 
     // Group enemies
-    this.enemies = this.physics.add.group();
-    this.enemies.add(this.soldier1);
-    this.enemies.add(this.tank1);
+    this.tanks = this.physics.add.group();
 
-    // Set enemies props
-    this.tank1.body.setGravityY(600);
-    this.soldier1.body.setGravityY(600);
+    this.rocks = this.physics.add.group();
+
+    this.enemies = this.physics.add.group();
+
+
 
     // The tank and soldiers kill us && Can touch the ground
     const playerKilled = (player, enemy) => {
@@ -58,15 +78,12 @@ class Scene2 extends Phaser.Scene {
       enemy.destroy();
     };
 
+    this.physics.add.collider(this.tanks, this.platforms);
     this.physics.add.collider(this.enemies, this.platforms);
 
-    this.physics.add.collider(
-      this.player,
-      this.enemies,
-      playerKilled,
-      null,
-      this
-    );
+    this.physics.add.collider(this.player, this.rocks, playerKilled, null, this);
+    this.physics.add.collider(this.player, this.tanks, playerKilled, null, this);
+    this.physics.add.collider(this.player, this.enemies, playerKilled, null, this);
 
     this.space = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
@@ -75,34 +92,46 @@ class Scene2 extends Phaser.Scene {
   }
 
   update() {
-    this.moveTank(this.tank1, 1)
-    this.moveTank(this.soldier1, 1.5)
+    
+    this.tanks.children.entries.forEach(enemy => {
+      this.moveTank(enemy, 1.8);
+    }); 
+    this.enemies.children.entries.forEach(enemy => {
+      this.moveTank(enemy, 1.8);
+    });
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
-
+      this.player.setVelocityX(-180);
       this.player.anims.play("left", true);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
-
+      this.player.setVelocityX(180);
       this.player.anims.play("right", true);
+      if ((this.player.x > 100) & (this.player.x < 300)) {
+        this.background.tilePositionX += 0.4;
+      } else if ((this.player.x > 300)) {
+        this.background.tilePositionX += 0.8;
+      }
     } else {
       this.player.setVelocityX(0);
-
       this.player.anims.play("stand");
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.space)) {
       let beam = this.physics.add.sprite(this.player.x, this.player.y, "boom");
-      this.physics.add.collider(
-        beam,
-        this.enemies,
-        this.enemyKilled,
-        null,
-        this
-      );
-      beam.play("boom_anim");
-      beam.setVelocityX(200);
+      this.physics.add.collider(beam,this.tanks,this.enemyKilled,null,this);
+      this.physics.add.collider(beam,this.enemies,this.enemyKilled,null,this);
+      beam.setScale(0.5);
+      if (this.player.anims.currentAnim.key === "left") {
+        beam.play("boom_anim_left");
+        beam.setVelocityX(-200);
+      } else {
+        beam.play("boom_anim");
+        beam.setVelocityX(200);
+      }
+      setTimeout(() => {
+        beam.anims.play("explode");
+        setTimeout(()=>{ beam.destroy()}, 50)
+      }, 1500);
       return beam;
     }
 

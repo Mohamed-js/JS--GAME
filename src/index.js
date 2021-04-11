@@ -11,14 +11,12 @@ window.onload = function () {
     width: 700,
     height: 390,
     scene: [Scene, Scene1, Scene2],
-    physics: {
-        default: 'arcade',
-        arcade: {
-            debug: true
-        }
+    audio: { disableWebAudio: true, loop: false },
+    physics: { default: 'arcade', arcade: { /* debug: true */ }
     }
   };
 
   const game = new Phaser.Game(config);
+  
   
 };
