@@ -5,7 +5,7 @@ This is a javascript video game made using Phaser 3. A simple and fantastic game
 
 ## Live Demo
 
-[PLAY!](https://mohamed-js.github.io/RESTAURANT/)
+[PLAY!](https://lucid-joliot-e8cdf9.netlify.app/)
 
 <br>
 
