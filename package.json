@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Mohamed-js/JS--GAME",
   "devDependencies": {
+    "@azerion/phaser-input": "^2.0.5",
     "@babel/preset-env": "^7.11.5",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
@@ -38,6 +39,7 @@
     "eslint-plugin-import": "^2.20.2",
     "file-loader": "^6.1.0",
     "jest": "^26.4.2",
+    "phaser3-rex-plugins": "^1.1.44",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
