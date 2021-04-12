@@ -97,13 +97,14 @@ const colliders = (scene) => {
   scene.physics.add.collider(scene.player, scene.enemies, scene.gameOver, null, scene);
 }
 
-const doubleJump = (scene) => {
+const levelUp = (scene) => {
   if (Cred.score >= 100 && Cred.score < 200) {
     Cred.speed = 240
     Cred.rockSpeed = 1100
     Cred.rockGrav = 400
     Cred.enemyT = 1500
     Cred.enemyS = 1.9
+    scene.up.setText('Level: 1')
   }
   else if (Cred.score >= 200 && Cred.score < 350) {
     Cred.speed = 290
@@ -111,6 +112,7 @@ const doubleJump = (scene) => {
     Cred.rockGrav = 500
     Cred.enemyT = 1300
     Cred.enemyS = 2.2
+    scene.up.setText('Level: 2')
   }
   else if (Cred.score >= 350) {
     Cred.speed = 350
@@ -118,7 +120,8 @@ const doubleJump = (scene) => {
     Cred.rockGrav = 700
     Cred.enemyT = 1000
     Cred.enemyS = 2.5
+    scene.up.setText('Level: 2')
   }
 }
 
-export { addEnemies, addTanks, addRocks, moveTank, moveEnemies, watchKeyboard, attackBoom, colliders, doubleJump };
+export { addEnemies, addTanks, addRocks, moveTank, moveEnemies, watchKeyboard, attackBoom, colliders, levelUp };

@@ -1,6 +1,6 @@
 const Cred = {
     name: '',
-    score:'',
+    score:0,
     gameOverB: false,
     speed: 180,
     rockSpeed: 1300,

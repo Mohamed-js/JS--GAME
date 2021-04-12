@@ -10,24 +10,21 @@ class Welcome extends Phaser.Scene {
     music.volume = 0.2;
     // music.play();
     
+    // Create welcome text
     this.add.text(160, 50, "ANDAL FIGHTERS", { fontSize: "48px", fill: "red", fontFamily: 'bold' });
     this.add.text(207, 120, "Enter your name please", { fontSize: "22px", fill: "green" });
 
-    const scores = async() =>{
-      const allScores = await api.getData()
-      return allScores
-    }
-
+    // Create form
     const input = document.createElement('input')
     input.id = 'input'
     const btn = document.createElement('button')
     btn.id = 'btn'
     btn.type = 'button'
     btn.textContent = 'Start'
-    
     document.body.appendChild(input)
     document.body.appendChild(btn)
 
+    // Create animations
     this.anims.create({
       key: "nyzk_anim",
       frames: this.anims.generateFrameNumbers("nyzk"),
@@ -91,6 +88,7 @@ class Welcome extends Phaser.Scene {
   }
 
   update() {
+    // Watch for starting game
     document.getElementById('btn').onclick = () => {
       if (document.getElementById('input').value != '') {
         this.name = document.getElementById('input').value
@@ -98,6 +96,8 @@ class Welcome extends Phaser.Scene {
         this.scene.start("play");
         document.getElementById('input').remove()
         document.getElementById('btn').remove()
+      } else {
+        this.add.text(90, 320, "It cannot be empty, please name yourself!", { fontSize: "22px", fill: "red" });
       }
     }
   }

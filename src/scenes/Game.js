@@ -25,8 +25,6 @@ class Game extends Phaser.Scene {
   };
 
   create() {
-    Cred.score = 0
-
     // KEYS
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -36,6 +34,7 @@ class Game extends Phaser.Scene {
     this.scoreText = this.add.text(16, 16, "score: 0", { fontSize: "32px", fill: "#000" });
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(350, 522, "ground").setScale(1);
+    this.up = this.add.text(570,28, 'Level: 0', {fontSize: '32px', fill: "red"}).setOrigin(.5)
 
     // Make player and his collider
     this.player = this.physics.add.sprite(100, 255, "player").setScale(0.15);
@@ -68,8 +67,8 @@ class Game extends Phaser.Scene {
       // Player fires any time in left and right
       actions.attackBoom(this)
 
-      // Double jump when score bigger than 200
-      actions.doubleJump(this)
+      // Double speed when level up
+      actions.levelUp(this)
     }
   }
 }
