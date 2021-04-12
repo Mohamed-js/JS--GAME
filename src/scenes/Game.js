@@ -25,6 +25,11 @@ class Game extends Phaser.Scene {
   };
 
   create() {
+    // Music on
+    var music = this.sound.add("andal");
+    music.volume = 0.2;
+    music.play();
+
     // KEYS
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.cursors = this.input.keyboard.createCursorKeys();
