@@ -34,6 +34,7 @@ class Over extends Phaser.Scene {
         Cred.gameOverB = false 
         Cred.speed = 180 
         Cred.score = 0
+        Cred.rockSpeed = 1300
     }
   }
 }

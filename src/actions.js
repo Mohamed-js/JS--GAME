@@ -18,7 +18,7 @@ const addEnemies = (scene, enemy, scale) => {
       scene.enemies.add(sold);
       sold.setGravityY(600);
     }
-  }, 2000);
+  }, Cred.enemyT);
 };
 
 const addRocks = (scene, enemy, scale) => {
@@ -28,9 +28,9 @@ const addRocks = (scene, enemy, scale) => {
       const rock = scene.physics.add.sprite(value, -30, enemy).setScale(scale);
       rock.play("nyzk_anim");
       scene.rocks.add(rock);
-      rock.setGravityY(400);
+      rock.setGravityY(Cred.rockGrav);
     }
-  }, 1300);
+  }, Cred.rockSpeed);
 };
 
 const moveTank = (ship, speed) => {
@@ -42,7 +42,7 @@ const moveEnemies = (scene) => {
     moveTank(enemy, 1.8);
   }); 
   scene.enemies.children.entries.forEach(enemy => {
-    moveTank(enemy, 1.8);
+    moveTank(enemy, Cred.enemyS);
   });
 }
 
@@ -98,14 +98,26 @@ const colliders = (scene) => {
 }
 
 const doubleJump = (scene) => {
-  if (Cred.score >= 200) {
+  if (Cred.score >= 100 && Cred.score < 200) {
     Cred.speed = 240
+    Cred.rockSpeed = 1100
+    Cred.rockGrav = 400
+    Cred.enemyT = 1500
+    Cred.enemyS = 1.9
   }
-  if (Cred.score >= 400) {
-    Cred.speed = 280
+  else if (Cred.score >= 200 && Cred.score < 350) {
+    Cred.speed = 290
+    Cred.rockSpeed = 800
+    Cred.rockGrav = 500
+    Cred.enemyT = 1300
+    Cred.enemyS = 2.2
   }
-  if (Cred.score >= 600) {
+  else if (Cred.score >= 350) {
     Cred.speed = 350
+    Cred.rockSpeed = 100
+    Cred.rockGrav = 700
+    Cred.enemyT = 1000
+    Cred.enemyS = 2.5
   }
 }
 

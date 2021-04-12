@@ -2,7 +2,11 @@ const Cred = {
     name: '',
     score:'',
     gameOverB: false,
-    speed: 180
+    speed: 180,
+    rockSpeed: 1300,
+    rockGrav: 400,
+    enemyT: 2000,
+    enemyS: 1.8
 }
 
 export default Cred
