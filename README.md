@@ -32,7 +32,7 @@ This is a javascript video game made using Phaser 3. A simple and fantastic game
 Inside the game directory:
 - Run  ```npm install``` to install project dependencies.
 - Run ```npm run test ``` to run the unit tests locally.
-
+![screenshot](./tests.png)
 
 ## Technologies
 
