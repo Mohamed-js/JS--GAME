@@ -20,7 +20,9 @@ class Game extends Phaser.Scene {
   gameOver(player, enemy) {
     this.physics.pause();
     Cred.gameOverB = true
-    api.setScore(Cred.name, Cred.score)
+    if(Cred.score !== 0) {
+      api.setScore(Cred.name, Cred.score)
+    }
     this.scene.start("over");
   };
 
