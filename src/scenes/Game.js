@@ -1,15 +1,17 @@
 import * as actions from '../actions'
+import Cred from '../cred/cred'
+import * as api from '../api'
+
+
 
 class Game extends Phaser.Scene {
   constructor() {
     super("play");
-    this.score = 0;
-    
   }
 
   enemyKilled(beam, enemy) {
-    this.score += 10;
-    this.scoreText.setText("Score: " + this.score);
+    Cred.score += 10;
+    this.scoreText.setText("Score: " + Cred.score);
     beam.anims.play("explode");
     setTimeout(() => {
       beam.destroy();
@@ -19,14 +21,13 @@ class Game extends Phaser.Scene {
 
   gameOver(player, enemy) {
     this.physics.pause();
-    this.gameOverB = true
+    Cred.gameOverB = true
+    api.setScore(Cred.name, Cred.score)
+    this.scene.start("over");
   };
 
   create() {
-    // Game over stuff
-    this.gameOverB = false
-    this.gameOverText = this.add.text(350, 160, "GAME OVER", { fontSize: "64px", fill: "red", fontFamily: 'bold', backgroundColor: 'black' }).setOrigin(.5);
-    this.gameOverText.visible = false
+    Cred.score = 0
 
     // KEYS
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -59,17 +60,19 @@ class Game extends Phaser.Scene {
   }
 
   update() {
-    // Check gameover?
-    actions.gameOver(this)
+    if (Cred.gameOverB == false) {
+      // Enemies move towards
+      actions.moveEnemies(this)
 
-    // Enemies move towards
-    actions.moveEnemies(this)
+      // Player moves in all directions && Jumps
+      actions.watchKeyboard(this)
 
-    // Player moves in all directions && Jumps
-    actions.watchKeyboard(this)
+      // Player fires any time in left and right
+      actions.attackBoom(this)
 
-    // Player fires any time in left and right
-    actions.attackBoom(this)
+      // Double jump when score bigger than 200
+      actions.doubleJump(this)
+    }
   }
 }
 

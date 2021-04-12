@@ -1,39 +1,41 @@
+import Cred from './cred/cred';
+
 const addTanks = (scene, enemy, scale) => {
   setInterval(() => {
-    const ob = scene.physics.add.image(1000, 340, enemy).setScale(scale);
-    scene.tanks.add(ob);
-    ob.setGravityY(600);
+    if (Cred.gameOverB == false) {
+      const ob = scene.physics.add.image(1000, 340, enemy).setScale(scale);
+      scene.tanks.add(ob);
+      ob.setGravityY(600);
+    }
   }, 3000);
 };
 
 const addEnemies = (scene, enemy, scale) => {
   setInterval(() => {
-    const sold = scene.physics.add.sprite(800, 350, enemy).setScale(scale);
-    sold.play("soldier_anim");
-    scene.enemies.add(sold);
-    sold.setGravityY(600);
+    if (Cred.gameOverB == false) {
+      const sold = scene.physics.add.sprite(800, 350, enemy).setScale(scale);
+      sold.play("soldier_anim");
+      scene.enemies.add(sold);
+      sold.setGravityY(600);
+    }
   }, 2000);
 };
 
 const addRocks = (scene, enemy, scale) => {
   setInterval(() => {
-    const value = Phaser.Math.Between(0, 500);
-    const rock = scene.physics.add.sprite(value, -30, enemy).setScale(scale);
-    rock.play("nyzk_anim");
-    scene.rocks.add(rock);
-    rock.setGravityY(400);
+    if (Cred.gameOverB == false) {
+      const value = Phaser.Math.Between(0, 500);
+      const rock = scene.physics.add.sprite(value, -30, enemy).setScale(scale);
+      rock.play("nyzk_anim");
+      scene.rocks.add(rock);
+      rock.setGravityY(400);
+    }
   }, 1300);
 };
 
 const moveTank = (ship, speed) => {
   ship.x -= speed;
 };
-
-const gameOver = (scene) => {
-  if (scene.gameOverB) {
-    scene.gameOverText.visible = true
-  }
-}
 
 const moveEnemies = (scene) => {
   scene.tanks.children.entries.forEach(enemy => {
@@ -46,10 +48,10 @@ const moveEnemies = (scene) => {
 
 const watchKeyboard = (scene) => {
   if (scene.cursors.left.isDown) {
-    scene.player.setVelocityX(-180);
+    scene.player.setVelocityX(-Cred.speed);
     scene.player.anims.play("left", true);
   } else if (scene.cursors.right.isDown) {
-    scene.player.setVelocityX(180);
+    scene.player.setVelocityX(Cred.speed);
     scene.player.anims.play("right", true);
     if ((scene.player.x > 100) & (scene.player.x < 300)) {
       scene.background.tilePositionX += 0.4;
@@ -62,7 +64,7 @@ const watchKeyboard = (scene) => {
   }
 
   if (scene.cursors.up.isDown && scene.player.body.touching.down) {
-    scene .player.setVelocityY(-330);
+    scene.player.setVelocityY(-330);
   }
 }
 
@@ -81,7 +83,7 @@ const attackBoom = (scene) => {
     }
     setTimeout(() => {
       beam.anims.play("explode");
-      setTimeout(()=>{ beam.destroy()}, 50)
+      setTimeout(()=>{ beam.destroy()}, 80)
     }, 1500);
     return beam;
   }
@@ -95,4 +97,16 @@ const colliders = (scene) => {
   scene.physics.add.collider(scene.player, scene.enemies, scene.gameOver, null, scene);
 }
 
-export { addEnemies, addTanks, addRocks, moveTank, gameOver, moveEnemies, watchKeyboard, attackBoom, colliders };
+const doubleJump = (scene) => {
+  if (Cred.score >= 200) {
+    Cred.speed = 240
+  }
+  if (Cred.score >= 400) {
+    Cred.speed = 280
+  }
+  if (Cred.score >= 600) {
+    Cred.speed = 350
+  }
+}
+
+export { addEnemies, addTanks, addRocks, moveTank, moveEnemies, watchKeyboard, attackBoom, colliders, doubleJump };

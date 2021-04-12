@@ -1,4 +1,5 @@
-import InputText from 'phaser3-rex-plugins/plugins/inputtext.js';
+import Cred from '../cred/cred'
+
 class Welcome extends Phaser.Scene {
   constructor() {
     super("animator");
@@ -9,8 +10,23 @@ class Welcome extends Phaser.Scene {
     music.volume = 0.2;
     // music.play();
     
-    this.add.text(120, 100, "Welcome to Mega Fighter...", { fontSize: "32px", fill: "green" });
+    this.add.text(160, 50, "ANDAL FIGHTERS", { fontSize: "48px", fill: "red", fontFamily: 'bold' });
+    this.add.text(207, 120, "Enter your name please", { fontSize: "22px", fill: "green" });
+
+    const scores = async() =>{
+      const allScores = await api.getData()
+      return allScores
+    }
+
+    const input = document.createElement('input')
+    input.id = 'input'
+    const btn = document.createElement('button')
+    btn.id = 'btn'
+    btn.type = 'button'
+    btn.textContent = 'Start'
     
+    document.body.appendChild(input)
+    document.body.appendChild(btn)
 
     this.anims.create({
       key: "nyzk_anim",
@@ -72,9 +88,17 @@ class Welcome extends Phaser.Scene {
       hideOnComplete: true,
     });
     this.physics.world.setBounds(0, 0, 700, 390);
+  }
 
-    if (true) {
-      this.scene.start("play");
+  update() {
+    document.getElementById('btn').onclick = () => {
+      if (document.getElementById('input').value != '') {
+        this.name = document.getElementById('input').value
+        Cred.name = this.name
+        this.scene.start("play");
+        document.getElementById('input').remove()
+        document.getElementById('btn').remove()
+      }
     }
   }
 }
