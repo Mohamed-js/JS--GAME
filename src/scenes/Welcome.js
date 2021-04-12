@@ -8,7 +8,7 @@ class Welcome extends Phaser.Scene {
   create() {
     var music = this.sound.add("andal");
     music.volume = 0.2;
-    // music.play();
+    music.play();
     
     // Create welcome text
     this.add.text(160, 50, "ANDAL FIGHTERS", { fontSize: "48px", fill: "red", fontFamily: 'bold' });
