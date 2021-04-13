@@ -1,6 +1,8 @@
+import Phaser from 'phaser'
 import * as actions from '../actions'
 import Cred from '../cred/cred'
 import * as api from '../api'
+
 
 class Game extends Phaser.Scene {
   constructor() {

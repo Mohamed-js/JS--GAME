@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 class Loader extends Phaser.Scene {
     constructor() {
         super('loader')

@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import Cred from "../cred/cred";
 
 class Over2 extends Phaser.Scene {

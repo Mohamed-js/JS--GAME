@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import * as api from "../api";
 import Cred from "../cred/cred";
 

@@ -1,11 +1,11 @@
-import Phaser from "phaser";
-import Loader from "./scenes/Loader";
-import Welcome from "./scenes/Welcome";
-import Game from "./scenes/Game";
-import Over from "./scenes/Over";
-import Over2 from "./scenes/Over2";
+import Phaser from 'phaser';
+import Loader from './scenes/Loader';
+import Welcome from './scenes/Welcome';
+import Game from './scenes/Game';
+import Over from './scenes/Over';
+import Over2 from './scenes/Over2';
 
-window.onload = function () {
+window.onload = () => {
   const config = {
     type: Phaser.AUTO,
     width: 700,
@@ -17,9 +17,10 @@ window.onload = function () {
     },
     audio: { disableWebAudio: true, loop: false },
     physics: {
-      default: "arcade"
+      default: 'arcade',
     },
   };
 
   const game = new Phaser.Game(config);
+  game.config.width = 700;
 };
