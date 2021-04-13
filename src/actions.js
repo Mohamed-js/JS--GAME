@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import Cred from './cred/cred';
 
 const addTanks = (scene, enemy, scale) => {
@@ -25,7 +24,9 @@ const addEnemies = (scene, enemy, scale) => {
 const addRocks = (scene, enemy, scale) => {
   setInterval(() => {
     if (Cred.gameOverB === false) {
+      /* eslint-disable no-undef */
       const value = Phaser.Math.Between(0, 500);
+      /* eslint-ensable no-undef */
       const rock = scene.physics.add.sprite(value, -30, enemy).setScale(scale);
       rock.play('nyzk_anim');
       scene.rocks.add(rock);
