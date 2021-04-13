@@ -84,7 +84,7 @@ const attackBoom = (scene) => {
       beam.setVelocityX(200);
     }
     setTimeout(() => {
-      beam.anims.play('explode');
+      if (beam === undefined) { beam.anims.play('explode'); }
       setTimeout(() => { beam.destroy(); }, 80);
     }, 1500);
     return beam;
