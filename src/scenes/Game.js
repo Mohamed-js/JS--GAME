@@ -22,8 +22,11 @@ class Game extends Phaser.Scene {
     Cred.gameOverB = true
     if(Cred.score !== 0) {
       api.setScore(Cred.name, Cred.score)
+      this.scene.start("over");
+    } else {
+      this.scene.start("over2");
     }
-    this.scene.start("over");
+    
   };
 
   create() {
